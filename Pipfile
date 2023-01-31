@@ -10,6 +10,14 @@ pyprojroot = "*"
 pathlib = "*"
 pandas = "*"
 numpy = "*"
+streamlit = "*"
+beautifulsoup4 = "*"
+transformers = "*"
+tensorflow = "*"
+sentencepiece = "*"
+tqdm = "*"
+torch = "*"
+tensorrt = "*"
 
 [dev-packages]
 
