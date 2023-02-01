@@ -13,11 +13,13 @@ numpy = "*"
 streamlit = "*"
 beautifulsoup4 = "*"
 transformers = "*"
-tensorflow = "*"
 sentencepiece = "*"
 tqdm = "*"
 torch = "*"
-tensorrt = "*"
+datasette = "*"
+urllib3 = "*"
+datasette-publish-vercel = "*"
+csvs-to-sqlite = "*"
 
 [dev-packages]
 
