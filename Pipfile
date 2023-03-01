@@ -20,8 +20,9 @@ datasette = "*"
 urllib3 = "*"
 datasette-publish-vercel = "*"
 csvs-to-sqlite = "*"
+opportunities-database = {editable = true, path = "."}
 
 [dev-packages]
 
 [requires]
-python_version = "*"
+python_version = "3.8"
