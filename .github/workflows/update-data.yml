@@ -6,14 +6,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check-out the repo under $GITHUB_WORKSPACE 
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
       - name: Set up Python 3.8
-      - uses: actions/setup-python@v4 
+        uses: actions/setup-python@v4 
         with:
           python-version: '3.8'
       - name: Run python file to process data
-      - run: python process-data.py
+        run: python process-data.py
+      - name: Install requirements.txt                               
+        run: pip install -r requirements.txt
       - name: Convert csv file to sqlite
-      - run: csvs-to-sqlite data/processed/opportunities_db.csv data/processed/opportunities.db
+        run: csvs-to-sqlite data/processed/opportunities_db.csv data/processed/opportunities.db
       - name: Deploy data to vercel
-      - run: datasette publish vercel data/processed/opportunities.db --project=opportunities-db
+        run: datasette publish vercel data/processed/opportunities.db --project=opportunities-db
