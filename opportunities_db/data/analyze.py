@@ -22,43 +22,50 @@ get_answer = pipeline("text2text-generation", model=model, tokenizer=tokenizer)
 summarizer = pipeline("summarization", model="knkarthick/MEETING_SUMMARY")
 
 
-def extract_text(url: str):
+def make_request(url: str):
+    """
+    Function to make a http request and parse html content
+
+    url: str
+    return: BeautifulSoup object
+    """
+    # Make a http request to the specified url
+    response = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+    # Return content of the response
+    html = urlopen(response).read()
+    return BeautifulSoup(html, "html.parser")
+
+
+def extract_text(soup):
     """
     Function to parse text from url
 
-    url: str
+    soup: BeautifulSoup object
     return: str
     """
-    # Disable warning
-    disable_warnings(InsecureRequestWarning)
-    # Make a request to the specified url
-    response = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-    # Return content of the response
-    html = urlopen(response).read()
-    # Parse html content
-    soup = BeautifulSoup(html, "html.parser")
-    for data in soup(['style', 'script']):
-        # Remove tags
-        data.decompose()
+    try:
+        for data in soup(['style', 'script']):
+            # Remove tags
+            data.decompose()
+        text = ' '.join(soup.stripped_strings)
+    except Exception:
+        text = np.nan
     # Return data by retrieving the tag content
-    return ' '.join(soup.stripped_strings)
+    return text
 
 
-def extract_title(url: str):
+def extract_title(soup):
     """
     Function to extract title from url
 
-    url: str
+    soup: BeautifulSoup object
     return: str
     """
-    # Make a request to the specified urls
-    response = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-    # Return content of the response
-    html = urlopen(response).read()
-    # Parse html content
-    soup = BeautifulSoup(html, "html.parser")
-    # Extract title
-    title = soup.title.get_text()
+    try:
+        # Extract title
+        title = soup.title.get_text()
+    except Exception:
+        title = np.nan
     # Return title in string format
     return title
     
@@ -94,9 +101,13 @@ def extract_summary(text: str):
     text: str
     return: str
     """
-    # Process text to generate a summary
-    summary_text = summarizer(text, truncation=True, max_length=512)
-    return summary_text[0].get('summary_text')
+    try:
+        # Process text to generate a summary
+        summary_text = summarizer(text, truncation=True, max_length=512)
+        summary_text = summary_text[0].get('summary_text')
+    except Exception:
+        summary_text = np.nan
+    return summary_text
 
 
 def read_csv(filename: str):
