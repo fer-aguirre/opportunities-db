@@ -7,3 +7,4 @@ new_version = paths.assets_dir('new_version.csv')
 
 # Outputs
 data_processed = paths.data_processed_dir("opportunities_db.csv")
+sqlite = paths.data_processed_dir("opportunities.db")
