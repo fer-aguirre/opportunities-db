@@ -7,7 +7,8 @@ jobs:
     environment: opportunities-db
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}  
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}  
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}  
     steps:
       - name: Check-out the repo under $GITHUB_WORKSPACE 
         uses: actions/checkout@v3
@@ -26,6 +27,8 @@ jobs:
           node-version: 16
           cache: yarn
       - run: yarn install --immutable
-      - run: yarn vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy data to vercel
-        run: datasette publish vercel data/processed/opportunities.db --project=opportunities-db
+        run: |-
+          datasette publish vercel data/processed/opportunities.db \
+            --token $VERCEL_TOKEN \
+            --project opportunities-db
