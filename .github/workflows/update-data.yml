@@ -1,5 +1,8 @@
 name: Update Database
 run-name: GitHub Actions is updating the database 🚀
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}  
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 on: [push]
 jobs:
   update-data:
@@ -16,7 +19,12 @@ jobs:
         run: pip install -r requirements.txt
       - name: Run python file to process data
         run: python process-data.py
-      - name: Convert csv file to sqlite
-        run: csvs-to-sqlite data/processed/opportunities_db.csv data/processed/opportunities.db
+      - name: Set up yarn
+        uses: actions/setup-node@v3
+        with: 
+          node-version: 16
+          cache: yarn
+      - run: yarn install --immutable
+      - run: yarn vercel pull --yes --environment=update-data --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy data to vercel
         run: datasette publish vercel data/processed/opportunities.db --project=opportunities-db
