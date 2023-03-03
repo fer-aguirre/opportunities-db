@@ -128,3 +128,9 @@ cython_debug/
 
 # VS Code
 .vs*
+
+# node
+node_modules/
+
+# Vercel
+.vercel
