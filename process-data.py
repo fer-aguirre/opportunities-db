@@ -3,6 +3,7 @@ import opportunities_db.data.load as load
 import opportunities_db.data.analyze as analyze
 import opportunities_db.data.export as export
 import logging
+import os
 
 
 def main():
@@ -10,6 +11,7 @@ def main():
     # Load data
     data_processed = load.data_processed
     new_version = load.new_version
+    sqlite = load.sqlite
 
     # Read data
     df1 = analyze.read_csv(data_processed)
@@ -51,6 +53,9 @@ def main():
             # Create a dataframe from lists
             df_new = analyze.create_dataframe(titles, deadlines, summaries, diff)
             export.update_data(df1, df_new)
+
+            # Convert csv file to sqlite
+            os.system(f"csvs-to-sqlite {data_processed} {sqlite}")
 
             # Update log file
             logging.basicConfig(filename="log.txt", level=logging.INFO,
