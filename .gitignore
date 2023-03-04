@@ -124,7 +124,7 @@ dmypy.json
 cython_debug/
 
 # Git
-.history
+.history/
 
 # VS Code
 .vs*
