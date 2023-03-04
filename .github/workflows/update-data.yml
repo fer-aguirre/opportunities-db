@@ -4,11 +4,6 @@ on: [push]
 jobs:
   update-data:
     runs-on: ubuntu-latest
-    environment: opportunities-db
-    env:
-      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}  
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}  
     steps:
       - name: Check-out the repo under $GITHUB_WORKSPACE 
         uses: actions/checkout@v3
@@ -20,13 +15,25 @@ jobs:
       - name: Install requirements.txt                               
         run: pip install -r requirements.txt
       - name: Run python file to process data
-        run: python process-data.py
+        run: python scripts/01-process-data.py
       - name: Set up yarn
         uses: actions/setup-node@v3
         with: 
           node-version: 16
           cache: yarn
       - run: yarn install --immutable
+      - name: Config git
+        run: |
+          git config --global user.email "github-action@users.noreply.github.com"
+          git config --global user.name "GitHub Action"
+      - name: Commit changes
+        run: |
+          git commit -am "Automated"
+          git push
+      - env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}  
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}  
       - name: Deploy data to vercel
         run: |-
           datasette publish vercel data/processed/opportunities.db \
