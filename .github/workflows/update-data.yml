@@ -38,7 +38,7 @@ jobs:
         run: |
           git add .
           git commit -m "Automatic data update"
-          git push origin main
+          git push
       - name: Deploy data to vercel
         run: |-
           datasette publish vercel data/processed/opportunities.db \
