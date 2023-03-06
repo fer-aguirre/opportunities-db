@@ -10,12 +10,13 @@ def main():
 
     # Load data
     data_processed = load.data_processed
-    new_version = load.new_version
+    new_urls = load.new_urls
     sqlite = load.sqlite
+    last_version = load.last_version 
 
     # Read data
-    df1 = analyze.read_csv(data_processed)
-    df2 = analyze.read_csv(new_version)
+    df1 = analyze.read_csv(last_version)
+    df2 = analyze.read_csv(new_urls)
 
     # Process data
     diff = analyze.compare_data(df1, df2)
@@ -52,8 +53,11 @@ def main():
 
             # Create a dataframe from lists
             df_new = analyze.create_dataframe(titles, deadlines, summaries, diff)
-            export.update_data(df1, df_new)
 
+            # Update data
+            export.update_data(df_new)
+            export.update_last_version(df1, df_new)
+            
             # Convert csv file to sqlite
             os.system(f"csvs-to-sqlite {data_processed} {sqlite}")
 
@@ -66,6 +70,7 @@ def main():
             logging.basicConfig(filename="log.txt", level=logging.ERROR,
                     format="%(asctime)s %(message)s")
             logging.exception("Exception info")
+            
 
 
 if __name__ == '__main__':
