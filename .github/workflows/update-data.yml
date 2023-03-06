@@ -24,14 +24,6 @@ jobs:
         run: pip install -r requirements.txt
       - name: Run python file to process data
         run: python scripts/01-process-data.py
-      - name: Config git
-        run: |
-          git config --global user.email "github-action@users.noreply.github.com"
-          git config --global user.name "GitHub Acton"
-      - name: Commit changes
-        run: |
-          git add .
-          git commit -m "Automatic data update"
       - name: Set up yarn
         uses: actions/setup-node@v3
         with: 
@@ -43,3 +35,11 @@ jobs:
           datasette publish vercel data/processed/opportunities.db \
             --token $VERCEL_TOKEN \
             --project opportunities-db
+      - name: Config git
+        run: |
+          git config --global user.email "github-action@users.noreply.github.com"
+          git config --global user.name "GitHub Acton"
+      - name: Commit changes
+        run: |
+          git add .
+          git commit -m "Automatic data update"
