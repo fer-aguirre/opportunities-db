@@ -23,7 +23,7 @@ jobs:
       - name: Install requirements.txt                               
         run: pip install -r requirements.txt
       - name: Run python file to process data
-        run: python process-data.py
+        run: python scripts/01-process-data.py
       - name: Config git
         run: |
           git config --global user.email "github-action@users.noreply.github.com"
