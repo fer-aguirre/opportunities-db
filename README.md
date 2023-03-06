@@ -46,8 +46,9 @@ Scraper to extract data from opportunity-related websites (e.g. funds, scholarsh
 │   ├── figures
 │   └── tables
 ├── package.json
-├── process-data.py
 ├── requirements.txt
+├── scripts
+│   └── 01-process-data.py
 ├── setup.py
 └── yarn.lock
 ```
@@ -61,6 +62,3 @@ This project is released under [MIT License](/LICENSE).
 
 This repository was generated with [cookiecutter](https://github.com/cookiecutter/cookiecutter).
 
-
-
-hola
