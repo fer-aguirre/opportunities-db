@@ -13,7 +13,7 @@ Scraper to extract data from opportunity-related websites (e.g. funds, scholarsh
 ├── Pipfile.lock
 ├── README.md
 ├── assets
-│   └── new_version.csv
+│   └── new_urls.csv
 ├── data
 │   ├── processed
 │   │   ├── opportunities.db
