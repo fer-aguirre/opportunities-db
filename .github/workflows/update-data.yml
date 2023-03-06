@@ -30,11 +30,6 @@ jobs:
           node-version: 16
           cache: yarn
       - run: yarn install --immutable
-      - name: Deploy data to vercel
-        run: |-
-          datasette publish vercel data/processed/opportunities.db \
-            --token $VERCEL_TOKEN \
-            --project opportunities-db
       - name: Config git
         run: |
           git config --global user.email "github-action@users.noreply.github.com"
@@ -43,3 +38,9 @@ jobs:
         run: |
           git add .
           git commit -m "Automatic data update"
+          git push origin main
+      - name: Deploy data to vercel
+        run: |-
+          datasette publish vercel data/processed/opportunities.db \
+            --token $VERCEL_TOKEN \
+            --project opportunities-db
